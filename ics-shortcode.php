@@ -48,20 +48,26 @@ function ICSEvents($atts)
         }
     }
     $html = '';
-    foreach ($eventsToDisplay as $event) {
-        $timestamp = $ical->iCalDateToUnixTimestamp($event['DTSTART']);
-        $html .= '<ul class="next-date">
-            <li><time datetime="'.strftime('%F', $timestamp).'">
-            <span>'.strftime('%e', $timestamp).'</span>
-            <span>'.strftime('%b', $timestamp).'</span></time></li>
-            <li>'.$event['SUMMARY'].'</li>';
-        if (!empty($event['LOCATION'])) {
-            $html .= '<li>'.$event['LOCATION'].'</li>';
+    if (empty($eventsToDisplay)) {
+        if (isset($atts['noeventsmsg']) ){
+            $html .= $atts['noeventsmsg'];
         }
-        if (strlen($event['DTSTART']) > 8) {
-            $html .= '<li>'.strftime('%Hh%M', $timestamp).'</li>';
+    } else {
+        foreach ($eventsToDisplay as $event) {
+            $timestamp = $ical->iCalDateToUnixTimestamp($event['DTSTART']);
+            $html .= '<ul class="next-date">
+                <li><time datetime="'.strftime('%F', $timestamp).'">
+                <span>'.strftime('%e', $timestamp).'</span>
+                <span>'.strftime('%b', $timestamp).'</span></time></li>
+                <li>'.$event['SUMMARY'].'</li>';
+            if (!empty($event['LOCATION'])) {
+                $html .= '<li>'.$event['LOCATION'].'</li>';
+            }
+            if (strlen($event['DTSTART']) > 8) {
+                $html .= '<li>'.strftime('%Hh%M', $timestamp).'</li>';
+            }
+            $html .= '</ul>';
         }
-        $html .= '</ul>';
     }
     return $html;
 
