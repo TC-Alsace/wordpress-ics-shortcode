@@ -49,7 +49,7 @@ function ICSEvents($atts)
     }
     $html = '';
     if (empty($eventsToDisplay)) {
-        if (isset($atts['noeventsmsg']) ){
+        if (isset($atts['noeventsmsg'])) {
             $html .= $atts['noeventsmsg'];
         }
     } else {
